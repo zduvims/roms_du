@@ -1,0 +1,8 @@
+# MATLAB scripts for ROMS climatology
+This folder contains **MATLAB scripts** to download and process climatology forcings for the **ROMS** (Regional Ocean Modeling System) model. They are modified from the [COAWST](https://github.com/DOI-USGS/COAWST/tree/main/Tools/mfiles) MATLAB tools.
+
+## Major changes I have made:
+- The original **create_roms_netcdf_clm_mwUL.m** download HYCOM data, then use the HYCOM data to create boundary and initial files. My modified version [create_clm_andaman](./create_clm_andaman.m) only process the climatology files, it will call [updatclim_coawst_mw_parallel_zdu.m](updatclim_coawst_mw_parallel_zdu.m).
+- The [updatclim_coawst_mw_parallel_zdu.m](updatclim_coawst_mw_parallel_zdu.m) has been modified so that it will use **parfor** loop to speed up the download process. This can reduce lots of time when you download long records of data (e.g. years).
+- [create_clm_andaman](./create_clm_andaman.m) and [updatclim_coawst_mw_parallel_zdu.m](updatclim_coawst_mw_parallel_zdu.m) call other functions, which I have also uploaded here.
+- **⚠️Important NOTICE:** The original COAWST package treats the 4D data as in the dimension (time,x,y,z), which I do not like. When I use ncread to read a 4D variable from ROMS netcdf output in MATLAB, I will get a dimension of (x,y,z,time). Therefore, I spend time changing related codes to let them read data in the format (x,y,z,time).
